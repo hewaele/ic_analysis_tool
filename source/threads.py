@@ -16,6 +16,9 @@ class DP(QtCore.QThread):
     finishSignal = QtCore.pyqtSignal(bool)
     sinOut = pyqtSignal(int)
 
+    #分析完成发送结果回去
+    result = pyqtSignal(list)
+
     #构造函数里增加形参
     def __init__(self, pre_path, real_path, save_path, merge, parent = None, stop = False):
         super(DP, self).__init__(parent)
@@ -35,10 +38,13 @@ class DP(QtCore.QThread):
 
         #执行分析
         self.analysis_work.draw()
-        for i in range(1000):
+
+        for i in range(200):
             if i % 100 == 0:
                 self.sinOut.emit(int(time.time())%100)
                 time.sleep(2)
+        # print(self.analysis_work.result)
+        self.result.emit(self.analysis_work.result)
 
         #大事干完了，发送一个信号告诉主线程窗口
         self.finishSignal.emit(True)
@@ -49,8 +55,12 @@ class childwindow(QDialog, Ui_Dialog):
     def __init__(self, parent = None):
         super(childwindow, self).__init__()
         self.setupUi(self)
-        #设置进度条初始值
-        self.progressBar.setValue(0)
+
+        #显示该窗口
+        self.show()
+
+    def show_result(self):
+        pass
 
 
 class SHOW(QtCore.QThread):

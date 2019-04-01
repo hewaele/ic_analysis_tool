@@ -1,6 +1,4 @@
 import sys
-import os
-import numpy as np
 import so_class
 import data_process
 from threads import DP, SHOW
@@ -9,7 +7,7 @@ from functools import partial
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QDockWidget, QListWidget, QInputDialog, QLineEdit, QDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QDockWidget, QListWidget, QInputDialog, QLineEdit, QDialog, QHeaderView
 from PyQt5.QtGui import *
 
 from qt_source.ic_gui import Ui_MainWindow  # 导入创建的GUI类
@@ -85,23 +83,29 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.max_t2 = int(self.max_bin_threshold.toPlainText())
 
         # 执行分析进程
-        self.work_threads = DP(pre_path='../pre_result/creat_test_data.txt',
-                               real_path='../pre_result/creat_real_data.txt',
+        self.work_threads = DP(pre_path='../pre_result/creat_test_data.csv',
+                               real_path='../pre_result/creat_real_data.csv',
                                save_path='../analysis_result/',
                                merge=False, stop=self.stop)
 
         self.work_threads.start()
         self.work_threads.sinOut.connect(self.set_processbar)
         # 分析结束开启点击按钮
+        self.work_threads.result.connect(self.get_result)
         self.work_threads.finishSignal.connect(self.work_done)
 
 
     def get_textedit_values(self, textobj):
 
         return textobj.toPlainText()
+    def get_result(self, list):
+        self.result = list
 
     def work_done(self):
-        QMessageBox.information(self, 'Information', 'analysis done')
+
+        # QMessageBox.information(self, 'Information', 'analysis done')
+        # 创建子窗口显示结果
+        self.child_window = childwindow(data = self.result)
         self.start_analysis.setDisabled(False)
         self.progressBar.setValue(0)
 
@@ -109,7 +113,45 @@ class mywindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.progressBar.setValue(num)
 
 
+# 定义子窗口
+class childwindow(QDialog, Ui_Dialog):
+    def __init__(self, data = [], parent=None):
+        super(childwindow, self).__init__()
+        self.setupUi(self)
+        self.data = data
+        # 显示该窗口
 
+        self.show_result()
+        self.show()
+
+    def show_result(self):
+        self.model = QStandardItemModel(len(self.data), 4)
+        self.model.setHorizontalHeaderLabels(['roi', 'best_result', 'pre_threshold', 'bin_threshold'])
+
+        # #Todo 优化2 添加数据
+        # self.model.appendRow([
+        #     QStandardItem('row %s,column %s' % (11,11)),
+        #     QStandardItem('row %s,column %s' % (11,11)),
+        #     QStandardItem('row %s,column %s' % (11,11)),
+        #     QStandardItem('row %s,column %s' % (11,11)),
+        # ])
+
+        for i, row in enumerate(self.data):
+            for j, value in enumerate(row):
+                item = QStandardItem(str(value))
+                # 设置每个位置的文本值
+                self.model.setItem(i, j, item)
+
+        #todo 优化1 表格填满窗口
+        #水平方向标签拓展剩下的窗口部分，填满表格
+        self.tableView.horizontalHeader().setStretchLastSection(True)
+        #水平方向，表格大小拓展到适当的尺寸
+        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        # 实例化表格视图，设置模型为自定义的模型
+        # self.tableView = QTableView()
+        self.tableView.setModel(self.model)
+        self.tableView.show()
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

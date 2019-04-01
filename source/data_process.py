@@ -7,9 +7,6 @@ from pyecharts import HeatMap
 import seaborn as sns
 import random
 
-pre_path = 'creat_test_data.txt'
-real_path = 'creat_real_data.txt'
-
 class Data():
     def __init__(self, pre_path = 'creat_test_data.txt', real_path = 'creat_real_data.txt', save_path = '', merge=True):
         self.pre_path = pre_path
@@ -17,6 +14,7 @@ class Data():
         self.save_path = save_path
         self.merge = merge
         #
+        self.result = []
 
 
     def get_img_num(self):
@@ -56,6 +54,7 @@ class Data():
         for r in self.roi_num_list[:]:
             self.draw_by_roi(r)
 
+        #
     def draw_by_roi(self, roi):
         #判断是否有二值化，如果有二值化，则进行三维画图
         if self.is_gray(roi):
@@ -64,8 +63,6 @@ class Data():
             t1_list = sorted(data['t1'].unique())
             #获取二值化阈值
             t2_list = sorted(data['t2'].unique())
-            print(t1_list)
-            print(t2_list)
             vis_data = []
 
             for t1i in t1_list[:]:
@@ -80,12 +77,28 @@ class Data():
                 t1_t2_extra = data[data.t1 == t1i].groupby('t2')['extra'].agg('sum').values
                 vis_data.append(ac)
 
+            # 获取最优结果
+            tmp_roi = roi
+            tmp_result = 0
+            tmp_t1 = 0
+            tmp_t2 = 0
+            for i, low in enumerate(vis_data):
+                for j, v in enumerate(low):
+                    #更新最优结果
+                    if v >= tmp_result:
+                        tmp_result = v
+                        tmp_t1 = i
+                        tmp_t2 = j
+            self.result.append([tmp_roi, tmp_result, tmp_t1, tmp_t2])
+
+            #获取热力图显示格式
             test_hot = []
             for i, l in enumerate(vis_data):
                 for j, v in enumerate(l):
                     test_hot.append([j, i, v])
+
             heatmap = HeatMap(width=2000, height=1000, )
-            print(test_hot)
+            # print(test_hot)
 
             heatmap.add(
                 "gray"+':roi'+str(roi),
@@ -126,27 +139,45 @@ class Data():
 
             #计算准确率
             ac = data.groupby(['t1'])['true'].agg('sum').values
+            ac = ac/total*100
             #计算错误率
-            er = total-ac
+            er = 100 - ac
             #计算漏检
             miss = data.groupby(['t1'])['miss'].agg('sum').values
+            miss = miss/total*100
             #计算多检率
             extra = data.groupby(['t1'])['extra'].agg('sum').values
+            extra = extra/total*100
+
+
+            #获取最优结果
+            tmp_roi = roi
+            tmp_result = 0
+            tmp_t1 = 0
+            tmp_t2 = 'none'
+            for index, v in enumerate(ac):
+                if v >= tmp_result:
+                    tmp_result = v
+                    tmp_t1 = threshold_list[index]
+            self.result.append([tmp_roi, tmp_result, tmp_t1, tmp_t2])
 
             #绘图
             fig = plt.figure()
             ax = fig.add_subplot(1, 1, 1)
 
             # ac error miss extra
-            ax.plot(threshold_list, ac/total, 'go-', label = 'accuracy')
-            ax.plot(threshold_list, er/total, 'r*-', label = 'error')
-            ax.plot(threshold_list, miss/total, 'b+-', label = 'miss')
-            ax.plot(threshold_list, extra/total, 'y^-', label = 'extra')
+            ax.plot(threshold_list, ac, 'go-', label = 'accuracy')
+            ax.plot(threshold_list, er, 'r*-', label = 'error')
+            ax.plot(threshold_list, miss, 'b+-', label = 'miss')
+            ax.plot(threshold_list, extra, 'y^-', label = 'extra')
             ax.set_xlabel('score')
             ax.set_ylabel('threshold')
             ax.set_title('roi'+str(roi))
-            ax.set_xticks(range(0,100,5))
+            ax.set_xticks(range(threshold_list[0],len(threshold_list)+5, 5))
             ax.set_xticklabels(threshold_list[::5], rotation=90, fontsize='small')
+
+            ax.set_yticks(range(0, 110, 10))
+            ax.set_yticklabels(range(0, 110, 10), rotation=90, fontsize='small')
             ax.grid(True)
             plt.legend(loc = 'center right', fontsize='large')
             plt.savefig(os.path.join(self.save_path, 'roi:'+str(roi)+'_vis.png'), dpi= 300)

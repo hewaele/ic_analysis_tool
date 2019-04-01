@@ -50,7 +50,7 @@ def creat_pre_data(save_path = ''):
             #连续生成255个结果
             n = random.randint(0, 28)
             th1 = random.randint(0, 95)
-            for j in range(256):
+            for j in range(135):
                 img_name.append(n)
                 t1.append(th1)
                 t2.append(j)
@@ -61,7 +61,7 @@ def creat_pre_data(save_path = ''):
         else:
             img_name.append(random.randint(0,28))
             t1.append(random.randint(0,95))
-            t2.append(random.randint(0, 255))
+            t2.append(random.randint(0, 135))
             gray.append(0)
             roi.append(tmp)
             result.append(data[random.randint(0,l-1)])
@@ -94,7 +94,7 @@ def creat_real_result(save_path = ''):
 
 if __name__ == '__main__':
     # real_data = pd.read_csv('../pre_result/real_result.txt')['id'].values
-    path = ''
-    creat_pre_data()
-    creat_real_result()
+    path = '../pre_result'
+    creat_pre_data(path)
+    creat_real_result(path)
 
