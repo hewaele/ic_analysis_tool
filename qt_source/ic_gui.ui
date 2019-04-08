@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>494</width>
-    <height>468</height>
+    <width>502</width>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>30</y>
-      <width>111</width>
+      <width>61</width>
       <height>31</height>
      </rect>
     </property>
@@ -27,20 +27,20 @@
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>image file path:</string>
+     <string>图片路径：</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>80</y>
-      <width>111</width>
+      <width>61</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string> template path:</string>
+     <string>模板路径：</string>
     </property>
    </widget>
    <widget class="QToolButton" name="chance_image">
@@ -72,60 +72,37 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>190</y>
-      <width>101</width>
+      <x>40</x>
+      <y>230</y>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="text">
-     <string>min threshold:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>240</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="text">
-     <string>max threshold:</string>
+     <string>识别阈值：</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>190</y>
-      <width>141</width>
+      <x>40</x>
+      <y>270</y>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>min bin threshold:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>240</y>
-      <width>131</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>max bin threshold:</string>
+     <string>二值化阈值：</string>
     </property>
    </widget>
    <widget class="QPushButton" name="start_analysis">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>370</y>
+      <x>190</x>
+      <y>430</y>
       <width>131</width>
       <height>51</height>
      </rect>
@@ -134,57 +111,17 @@
      <string>start analysis</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="min_threshold">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>190</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="max_threshold">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>240</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="min_bin_threshold">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>190</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="max_bin_threshold">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>240</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>130</y>
-      <width>141</width>
+      <width>61</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>analysisi save path:</string>
+     <string>结果路径：</string>
     </property>
    </widget>
    <widget class="QToolButton" name="chance_analysis">
@@ -203,9 +140,9 @@
    <widget class="QLineEdit" name="image_path">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>80</x>
       <y>30</y>
-      <width>311</width>
+      <width>371</width>
       <height>31</height>
      </rect>
     </property>
@@ -213,9 +150,9 @@
    <widget class="QLineEdit" name="template_path">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>80</x>
       <y>80</y>
-      <width>311</width>
+      <width>371</width>
       <height>31</height>
      </rect>
     </property>
@@ -223,9 +160,9 @@
    <widget class="QLineEdit" name="analysis_path">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>80</x>
       <y>130</y>
-      <width>311</width>
+      <width>371</width>
       <height>31</height>
      </rect>
     </property>
@@ -233,9 +170,9 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>322</y>
-      <width>471</width>
+      <x>0</x>
+      <y>490</y>
+      <width>531</width>
       <height>31</height>
      </rect>
     </property>
@@ -243,25 +180,169 @@
      <number>24</number>
     </property>
    </widget>
+   <widget class="QComboBox" name="roi_menu">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>190</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>190</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ROI区域：</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>220</y>
+      <width>461</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>280</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>—</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>240</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>—</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save_threshold">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>380</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>保存</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="min_threshold">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>230</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="max_threshold">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>230</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="min_bin_threshold">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>270</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="max_bin_threshold">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>270</y>
+      <width>41</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>380</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>状态：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="status">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>380</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>textBrowser</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
    <zorder>chance_template</zorder>
    <zorder>chance_image</zorder>
    <zorder>label_3</zorder>
-   <zorder>label_4</zorder>
    <zorder>label_5</zorder>
-   <zorder>label_6</zorder>
    <zorder>start_analysis</zorder>
-   <zorder>min_threshold</zorder>
-   <zorder>max_threshold</zorder>
-   <zorder>min_bin_threshold</zorder>
-   <zorder>max_bin_threshold</zorder>
    <zorder>label_7</zorder>
    <zorder>chance_analysis</zorder>
    <zorder>image_path</zorder>
    <zorder>template_path</zorder>
    <zorder>analysis_path</zorder>
    <zorder>progressBar</zorder>
+   <zorder>roi_menu</zorder>
+   <zorder>label_8</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_9</zorder>
+   <zorder>save_threshold</zorder>
+   <zorder>min_threshold</zorder>
+   <zorder>max_threshold</zorder>
+   <zorder>min_bin_threshold</zorder>
+   <zorder>max_bin_threshold</zorder>
+   <zorder>label_4</zorder>
+   <zorder>status</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
@@ -269,8 +350,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>494</width>
-     <height>22</height>
+     <width>502</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuopen_img_file">

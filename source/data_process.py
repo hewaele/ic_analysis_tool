@@ -1,11 +1,12 @@
+# -*-coding:utf-8 -*-
 import pandas as pd
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+# from mpl_toolkits.mplot3d import Axes3D
 from pyecharts import HeatMap
-import seaborn as sns
-import random
+# import seaborn as sns
+# import random
 
 class Data():
     def __init__(self, pre_path = 'creat_test_data.txt', real_path = 'creat_real_data.txt', save_path = '', merge=True):
@@ -80,15 +81,21 @@ class Data():
             # 获取最优结果
             tmp_roi = roi
             tmp_result = 0
-            tmp_t1 = 0
-            tmp_t2 = 0
+            tmp_t1 = []
+            tmp_t2 = []
             for i, low in enumerate(vis_data):
                 for j, v in enumerate(low):
                     #更新最优结果
-                    if v >= tmp_result:
+                    if v == tmp_result:
                         tmp_result = v
-                        tmp_t1 = i
-                        tmp_t2 = j
+                        tmp_t1.append(i)
+                        tmp_t2.append(j)
+                    if v > tmp_result:
+                        #清空当前
+                        tmp_result = v
+                        tmp_t1 = [i]
+                        tmp_t2 = [j]
+
             self.result.append([tmp_roi, tmp_result, tmp_t1, tmp_t2])
 
             #获取热力图显示格式
@@ -124,7 +131,7 @@ class Data():
                 datazoom_extra_range=[10, 25],
                 is_toolbox_show=False,
             )
-            heatmap.render(os.path.join(self.save_path,"roi:"+str(roi)+'_vis.html'))
+            heatmap.render(os.path.join(self.save_path,"roi_"+str(roi)+'_vis.html'))
             # sns.heatmap(test_hot, cmap='Reds', vmin = 0, vmax=100)
             # plt.show()
 
@@ -153,12 +160,16 @@ class Data():
             #获取最优结果
             tmp_roi = roi
             tmp_result = 0
-            tmp_t1 = 0
+            tmp_t1 = []
             tmp_t2 = 'none'
             for index, v in enumerate(ac):
-                if v >= tmp_result:
+                if v == tmp_result:
                     tmp_result = v
-                    tmp_t1 = threshold_list[index]
+                    tmp_t1.append(threshold_list[index])
+                if v > tmp_result:
+                    tmp_result = v
+                    tmp_t1 = [threshold_list[index]]
+
             self.result.append([tmp_roi, tmp_result, tmp_t1, tmp_t2])
 
             #绘图
@@ -170,8 +181,8 @@ class Data():
             ax.plot(threshold_list, er, 'r*-', label = 'error')
             ax.plot(threshold_list, miss, 'b+-', label = 'miss')
             ax.plot(threshold_list, extra, 'y^-', label = 'extra')
-            ax.set_xlabel('score')
-            ax.set_ylabel('threshold')
+            ax.set_xlabel('threshold')
+            ax.set_ylabel('score')
             ax.set_title('roi'+str(roi))
             ax.set_xticks(range(threshold_list[0],len(threshold_list)+5, 5))
             ax.set_xticklabels(threshold_list[::5], rotation=90, fontsize='small')
@@ -180,8 +191,8 @@ class Data():
             ax.set_yticklabels(range(0, 110, 10), rotation=90, fontsize='small')
             ax.grid(True)
             plt.legend(loc = 'center right', fontsize='large')
-            plt.savefig(os.path.join(self.save_path, 'roi:'+str(roi)+'_vis.png'), dpi= 300)
-            plt.show()
+            plt.savefig(os.path.join(self.save_path, 'roi_'+str(roi)+'_vis.png'), dpi= 300)
+            # plt.show()
 
 
     def is_gray(self, roi):

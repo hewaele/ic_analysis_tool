@@ -1,5 +1,7 @@
+# -*-coding:utf-8 -*-
 import ctypes
-
+import sys
+import os
 
 #返回值结构体类
 class SO():
@@ -11,6 +13,7 @@ class SO():
     class STU(ctypes.Structure):
         _fields_ = [('a', ctypes.c_int),
                     ('path', ctypes.c_char_p)]
+
 
     def run(self):
         #读取so文件
